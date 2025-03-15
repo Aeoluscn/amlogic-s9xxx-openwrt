@@ -37,3 +37,8 @@ git clone https://github.com/ophub/luci-app-amlogic.git package/luci-app-amlogic
 #
 # ------------------------------- Other ends -------------------------------
 
+sed -i "s/192.168.1.1/192.168.50.200/g" package/base-files/files/bin/config_generate
+sed -i "/set network.\$1.proto='static'/a set network.\$1.gateway='192.168.50.1'\nset network.\$1.dns='223.5.5.5 8.8.4.4'" package/base-files/files/bin/config_generate
+# 关闭 LAN 口的 DHCP
+sed -i "/config dhcp 'lan'/a \	option ignore '1'" package/network/services/dnsmasq/files/dhcp.conf
+sed -i "/option start/d; /option limit/d" package/network/services/dnsmasq/files/dhcp.conf
